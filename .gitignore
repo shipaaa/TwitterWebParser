@@ -1,0 +1,9 @@
+venv
+
+# ide folders
+.idea/
+
+# not project files
+.DS_Store
+.env
+__pycache__
