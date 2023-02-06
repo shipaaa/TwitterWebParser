@@ -26,3 +26,9 @@
    pip install --upgrade pip
    pip install -r requirements.txt
    ```
+
+4. Copy .env.example to .env and edit .env file by filling in all environment variables in it.
+
+   ```
+   cp code/.env.example code/.env
+   ```
