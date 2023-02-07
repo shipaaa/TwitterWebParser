@@ -38,10 +38,3 @@ def send_results_to_telegram(text_message: str):
     })
     if r.status_code != 200:
         raise Exception("ошибка в тексте сообщения")
-
-
-def is_part_in_list(text_line: str, words: list) -> bool:
-    for word in words:
-        if word.lower() in text_line.lower():
-            return True
-    return False
