@@ -7,6 +7,7 @@ import tweepy
 from dotenv import load_dotenv
 
 from search_tweets import global_search_tweets, search_tweets_in_profiles
+from services import deduce_final_results
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -22,20 +23,11 @@ def main():
     )
     connect_to_api = tweepy.API(authentication, proxy=os.getenv('PROXY'))
 
+    yesterday = (dt.datetime.utcnow() - dt.timedelta(days=1)).strftime('%Y-%m-%d')  # naming !!!
     phrase = "migration contract"
-    search_request = f"{phrase} -filter:replies -filter:retweets " \
-                     f"since:{(dt.datetime.utcnow() - dt.timedelta(days=1)).strftime('%Y-%m-%d')}"
+    search_request = f"{phrase} " \
+                     f"-filter:replies -filter:retweets since:{yesterday}"
     last_few_hours_search_units = dt.datetime.utcnow().replace(tzinfo=dt.timezone.utc) - dt.timedelta(hours=3)
-
-    tweets_by_phrase = global_search_tweets(connect_to_api, search_request, last_few_hours_search_units)
-    if isinstance(tweets_by_phrase, str):
-        result = tweets_by_phrase
-        print(result)
-    else:
-        for tweet in tweets_by_phrase:
-            print(f"{tweet['tweet_created_at']}\n{tweet['tweet_url']}\n{tweet['tweet_text']}\n")
-
-    # Начало 2 парсера
     profile_references = (
         "LBank_Exchange",
         "ZT_Exchange",
@@ -46,7 +38,13 @@ def main():
         "Bibox365",
         "_AscendEX",
     )
-    search_tweets_in_profiles(connect_to_api, "tag", last_few_hours_search_units, profile_references)
+
+    tweets_by_phrase = global_search_tweets(connect_to_api, search_request, last_few_hours_search_units)
+    tweets_in_certain_profiles = search_tweets_in_profiles(connect_to_api, search_request, last_few_hours_search_units,
+                                                           profile_references)
+
+    deduce_final_results(tweets_by_phrase, 1)
+    deduce_final_results(tweets_in_certain_profiles, 2)
 
 
 if __name__ == "__main__":
@@ -54,7 +52,7 @@ if __name__ == "__main__":
         startTime = time.time()
         main()
         endTime = time.time()
-        print(f'Program was finished in {endTime - startTime} seconds...')
+        print(f"\n__main__ ends in {endTime - startTime} seconds...")
     except Exception:
         import traceback
 
