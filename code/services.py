@@ -1,17 +1,8 @@
 import datetime as dt
+import os
 
-
-def deduce_final_results(function_result: str | list[dict[str, str]], parser_number: int) -> None:
-    """Function for output of results [en]
-    Функция для вывода результатов [ru]"""
-
-    print(f"{10 * '-'}Парсер №{parser_number}{10 * '-'}\n")
-
-    if not isinstance(function_result, str):
-        for tweet in function_result:
-            print(f"{tweet['tweet_created_at']}\n{tweet['tweet_url']}\n{tweet['tweet_text']}\n")
-    else:
-        print(function_result)
+import requests
+from dotenv import load_dotenv
 
 
 def fill_list_with_tweet_data(data_list: list[dict[str, str]], tweet_data) -> list:
@@ -24,3 +15,26 @@ def fill_list_with_tweet_data(data_list: list[dict[str, str]], tweet_data) -> li
         "tweet_text": tweet_data.full_text
     })
     return data_list
+
+
+def deduce_final_results(function_result: str | list[dict[str, str]]) -> None:
+    """Function for output of results [en]
+    Функция для вывода результатов [ru]"""
+    if not isinstance(function_result, str):
+        for tweet in function_result:
+            send_results_to_telegram(f"{tweet['tweet_created_at']}\n{tweet['tweet_url']}\n{tweet['tweet_text']}\n")
+    else:
+        send_results_to_telegram(function_result)
+
+
+def send_results_to_telegram(text_message: str):
+    """Sending data to telegram using a POST request to the Telegram API and the requests library [en]
+    Отправка данных в телеграм с помощью POST запроса к API Telegram и библиотеки requests [ru]"""
+    load_dotenv()
+    url = f"https://api.telegram.org/bot{os.environ.get('TELEGRAM_BOT_TOKEN')}/sendMessage"
+    r = requests.post(url, data={
+        "chat_id": os.environ.get('TELEGRAM_CHAT_ID'),
+        "text": text_message
+    })
+    if r.status_code != 200:
+        raise Exception("ошибка в тексте сообщения")
