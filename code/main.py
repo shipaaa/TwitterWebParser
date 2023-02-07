@@ -24,9 +24,6 @@ def main():
     connect_to_api = tweepy.API(authentication, proxy=os.getenv('PROXY'))
 
     yesterday = (dt.datetime.utcnow() - dt.timedelta(days=1)).strftime('%Y-%m-%d')  # naming !!!
-    phrase = "migration contract"
-    search_request = f"{phrase} " \
-                     f"-filter:replies -filter:retweets since:{yesterday}"
     last_few_hours_search_units = dt.datetime.utcnow().replace(tzinfo=dt.timezone.utc) - dt.timedelta(hours=3)
     profile_references = (
         "LBank_Exchange",
@@ -39,9 +36,15 @@ def main():
         "_AscendEX",
     )
 
-    tweets_by_phrase = global_search_tweets(connect_to_api, search_request, last_few_hours_search_units)
-    tweets_in_certain_profiles = search_tweets_in_profiles(connect_to_api, search_request, last_few_hours_search_units,
-                                                           profile_references)
+    phrase_for_global_search = "migration contract"
+    global_search_request = f"{phrase_for_global_search} " \
+                            f"-filter:replies -filter:retweets since:{yesterday}"
+    phrase_for_certain_profiles = "new listing"
+    search_in_profiles_request = f"{phrase_for_certain_profiles} " \
+                                 f"-filter:replies -filter:retweets since:{yesterday}"
+    tweets_by_phrase = global_search_tweets(connect_to_api, global_search_request, last_few_hours_search_units)
+    tweets_in_certain_profiles = search_tweets_in_profiles(connect_to_api, search_in_profiles_request,
+                                                           last_few_hours_search_units, profile_references)
 
     deduce_final_results(tweets_by_phrase, 1)
     deduce_final_results(tweets_in_certain_profiles, 2)
