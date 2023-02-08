@@ -36,10 +36,10 @@ def main():
     )
 
     phrases_for_global_search = ("migration contract",)
-    phrase_for_certain_profiles = "new listing"
+    phrase_for_certain_profiles_search = "new listing"
 
     tweets_by_phrase = global_search_tweets(connect_to_api, phrases_for_global_search, last_few_hours_search_units)
-    tweets_in_certain_profiles = search_tweets_in_profiles(connect_to_api, phrase_for_certain_profiles,
+    tweets_in_certain_profiles = search_tweets_in_profiles(connect_to_api, phrase_for_certain_profiles_search,
                                                            last_few_hours_search_units, profile_references)
 
     deduce_final_results(tweets_by_phrase, 1)
