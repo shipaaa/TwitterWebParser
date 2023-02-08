@@ -40,6 +40,6 @@ def send_results_to_telegram(text_message: str, parser_number: int):
         })
     elif parser_number == 2:
         requests.post(url, data={
-            "chat_id": os.environ.get('TELEGRAM_CHAT_ID_1'),
+            "chat_id": os.environ.get('TELEGRAM_CHAT_ID_2'),
             "text": text_message
         })
