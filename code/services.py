@@ -34,16 +34,12 @@ def send_results_to_telegram(text_message: str, parser_number: int):
     load_dotenv()
     url = f"https://api.telegram.org/bot{os.environ.get('TELEGRAM_BOT_TOKEN')}/sendMessage"
     if parser_number == 1:
-        r = requests.post(url, data={
-            "chat_id": os.environ.get('TELEGRAM_CHAT_ID1'),
+        requests.post(url, data={
+            "chat_id": os.environ.get('TELEGRAM_CHAT_ID_1'),
             "text": text_message
         })
-        if r.status_code != 200:
-            raise Exception("ошибка в тексте сообщения")
     elif parser_number == 2:
-        r = requests.post(url, data={
-            "chat_id": os.environ.get('TELEGRAM_CHAT_ID2'),
+        requests.post(url, data={
+            "chat_id": os.environ.get('TELEGRAM_CHAT_ID_1'),
             "text": text_message
         })
-        if r.status_code != 200:
-            raise Exception("ошибка в тексте сообщения")
