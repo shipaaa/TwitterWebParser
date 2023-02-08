@@ -35,25 +35,22 @@ def main():
         "_AscendEX",
     )
 
-    phrase_for_global_search = "migration contract"
-    global_search_request = f"{phrase_for_global_search} " \
-                            f"-filter:replies -filter:retweets"
+    phrases_for_global_search = ("migration contract",)
     phrase_for_certain_profiles = "new listing"
 
-    tweets_by_phrase = global_search_tweets(connect_to_api, global_search_request, last_few_hours_search_units)
+    tweets_by_phrase = global_search_tweets(connect_to_api, phrases_for_global_search, last_few_hours_search_units)
     tweets_in_certain_profiles = search_tweets_in_profiles(connect_to_api, phrase_for_certain_profiles,
                                                            last_few_hours_search_units, profile_references)
 
-    deduce_final_results(tweets_by_phrase)
-    deduce_final_results(tweets_in_certain_profiles)
+    deduce_final_results(tweets_by_phrase, 1)
+    deduce_final_results(tweets_in_certain_profiles, 2)
 
 
 if __name__ == "__main__":
     try:
-        startTime = time.time()
-        main()
-        endTime = time.time()
-        print(f"\n__main__ ends in {endTime - startTime} seconds...")
+        while True:
+            main()
+            time.sleep(60 * 60 * 3)
     except Exception:
         import traceback
 
