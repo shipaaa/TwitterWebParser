@@ -33,13 +33,10 @@ def send_results_to_telegram(text_message: str, parser_number: int):
     Отправка данных в телеграм с помощью POST запроса к API Telegram и библиотеки requests [ru]"""
     load_dotenv()
     url = f"https://api.telegram.org/bot{os.environ.get('TELEGRAM_BOT_TOKEN')}/sendMessage"
-    if parser_number == 1:
-        requests.post(url, data={
-            "chat_id": os.environ.get('TELEGRAM_CHAT_ID_1'),
-            "text": text_message
-        })
-    elif parser_number == 2:
-        requests.post(url, data={
-            "chat_id": os.environ.get('TELEGRAM_CHAT_ID_2'),
-            "text": text_message
-        })
+    r = requests.post(url, data={
+        "chat_id": os.environ.get('TELEGRAM_CHAT_ID_1') if parser_number == 1 else os.environ.get('TELEGRAM_CHAT_ID_2'),
+        "disable_web_page_preview": True,
+        "text": text_message
+    })
+    if r.status_code != 200:
+        raise Exception("unexpected error, fix it")
