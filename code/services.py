@@ -1,11 +1,14 @@
 import datetime as dt
 import os
+from typing import TypeAlias
 
 import requests
 from dotenv import load_dotenv
 
+suitable_tweets_list: TypeAlias = list[dict[str, str]]
 
-def fill_list_with_tweet_data(data_list: list[dict[str, str]], tweet_data) -> list:
+
+def fill_list_with_tweet_data(data_list: suitable_tweets_list, tweet_data) -> list:
     """Select from the data that comes in the form of a json file that we need and add them to the list [en]
     Выбираем из данных, которые приходят в виде json файла, необходимые нам и добавляем их в список [ru]"""
     data_list.append({
@@ -17,7 +20,7 @@ def fill_list_with_tweet_data(data_list: list[dict[str, str]], tweet_data) -> li
     return data_list
 
 
-def deduce_final_results(function_result: str | list[dict[str, str]], parser_number: int) -> None:
+def deduce_final_results(function_result: str | suitable_tweets_list, parser_number: int) -> None:
     """Function for output of results [en]
     Функция для вывода результатов [ru]"""
     if not isinstance(function_result, str):

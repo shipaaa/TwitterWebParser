@@ -2,11 +2,11 @@ import datetime as dt
 
 import tweepy
 
-from services import fill_list_with_tweet_data
+from services import fill_list_with_tweet_data, suitable_tweets_list
 
 
 def global_search_tweets(api: tweepy.API, searching_phrases: tuple, time_from_which_start_search: dt.datetime
-                         ) -> str | list[dict[str, str]]:
+                         ) -> str | suitable_tweets_list:
     """Searching tweets by phrase throughout Twitter for the last 3 hours [en]
     Поиск твитов по фразе во всем Твиттере за последние 3 часа [ru]"""
 
@@ -24,7 +24,7 @@ def global_search_tweets(api: tweepy.API, searching_phrases: tuple, time_from_wh
 
 
 def search_tweets_in_profiles(api: tweepy.API, searching_phrase: str, time_from_which_start_search: dt.datetime,
-                              profiles: tuple) -> str | list[dict[str, str]]:
+                              profiles: tuple) -> str | suitable_tweets_list:
     """Searching tweets by phrase in certain profiles for the last 3 hours [en]
     Поиск твитов по фразе в определенных профилях за последние 3 часа [ru]"""
 
