@@ -47,7 +47,3 @@ Current service has 2 variations
    ```
    cp code/.env.example code/.env
    ```
-
-## Technical Specification
-
-[Technical Task](Technical%20Task.pdf)
