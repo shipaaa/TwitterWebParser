@@ -1,4 +1,4 @@
-# TwitterWebParser
+# Tweets Web Finder
 
 #### Service that searches for tweets by phrase or phrases
 
@@ -42,8 +42,8 @@ Current service has 2 variations
    pip install -r requirements.txt
    ```
 
-4. Copy .env.example to .env and edit .env file by filling in all environment variables in it.
+4. Copy .env.example to .env and edit .env file by filling in all your environment variables in it.
 
    ```
-   cp code/.env.example code/.env
+   cp .env.example .env
    ```
