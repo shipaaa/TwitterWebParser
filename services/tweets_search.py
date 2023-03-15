@@ -2,7 +2,7 @@ import datetime as dt
 
 import tweepy
 
-from services import fill_list_with_tweet_data, suitable_tweets_list
+from services.services import fill_list_with_tweet_data, suitable_tweets_list
 
 
 def global_search_tweets(api: tweepy.API, searching_phrases: tuple, time_from_which_start_search: dt.datetime
